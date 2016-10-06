@@ -3,6 +3,7 @@ var app = express();
 var GitHubApi = require("github");
 const NodeCache = require( "node-cache" );
 const myCache = new NodeCache();
+var fs = require('fs');
 
 var TEST_TOKEN="c118ce8f66709825bc3a1dd21f2ad6cb91576a57";
 
@@ -43,8 +44,16 @@ app.get('/auth/:user/:pass', function (req, res){
 	github.authorization.create({
 	    scopes: ["user", "public_repo", "repo", "repo:status", "gist"],
     	note_url: "http://localhost:8081",
+    	note: "Test",
 	}, function(err, msg) {
 	    if (msg.token) {
+	    	//Save token in filesystem for test purpose
+	    	fs.writeFile("token.txt", msg.token, function(err) {
+			    if(err) {
+			        return console.log(err);
+			    }
+			    console.log("Token saved!");
+			}); 
 	        res.write(msg.token);
 	    }
 	});
@@ -52,11 +61,16 @@ app.get('/auth/:user/:pass', function (req, res){
 
 //return the list of the repo of the autenticated user
 app.get('/repos', function (req, res) {
-	//Test purpose
+	var token;
+	fs.readFile('token.txt', 'utf8', function (err,data) {
+	  if (err) {
+	    return console.log(err);
+	  }
 	github.authenticate({
 	    type: "oauth",
-	    token: TEST_TOKEN
+	    token: data,
 	});
+	console.log(data);
 	//check if I have the result cached
 	myCache.get( "repos", function( err, value ){
 	  if( !err ){
@@ -96,6 +110,9 @@ app.get('/repos', function (req, res) {
 	    }
 	  }
 	});
+	});
+	
+	
    
 })
 

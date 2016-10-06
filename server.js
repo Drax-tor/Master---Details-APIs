@@ -61,7 +61,6 @@ app.get('/auth/:user/:pass', function (req, res){
 
 //return the list of the repo of the autenticated user
 app.get('/repos', function (req, res) {
-	var token;
 	fs.readFile('token.txt', 'utf8', function (err,data) {
 	  if (err) {
 	    return console.log(err);

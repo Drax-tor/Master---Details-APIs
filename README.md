@@ -37,6 +37,7 @@ The authentication method chosen is the OAuth2 Token.
 In a normal way, to retrieve the token, the user should go on github site and look for it in the account settings.
 In the case provided by the app, first the user will log in through the /auth endpoint with username and password; the system will provide the user with the token.
 So, everytime we need to use authentication to retrieve some data from github, we can only use the token as our identifier.
+In a normal way, the token is storend in the mobile/web app. In this test case we store it in a simple text file.
 
 PROS
 * Easy authentication after first step, only use of token

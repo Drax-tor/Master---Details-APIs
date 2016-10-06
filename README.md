@@ -5,7 +5,6 @@
 This is a node.js app.
 In the package you can find:
 * server.js --> nodeJS app
-* endpoint.txt --> list of the endpoints covered by the app
 * README.txt --> a guide on how to install and use the app
 
 

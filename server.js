@@ -21,10 +21,10 @@ var github = new GitHubApi({
     // optional args
     debug: true,
     protocol: "https",
-    host: "api.github.com", // should be api.github.com for GitHub
-    pathPrefix: "", // for some GHEs; none for GitHub
+    host: "api.github.com",
+    pathPrefix: "",
     headers: {
-        "user-agent": "My-Cool-GitHub-App" // GitHub is happy with a unique user agent
+        "user-agent": "My-Cool-GitHub-App"
     },
     Promise: require('bluebird'),
     followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
@@ -39,6 +39,7 @@ app.get('/auth/:user/:pass', function (req, res){
 	    username: req.params.user,
 	    password: req.params.pass
 	});
+	//Ask for token with scopes
 	github.authorization.create({
 	    scopes: ["user", "public_repo", "repo", "repo:status", "gist"],
     	note_url: "http://localhost:8081",
@@ -107,7 +108,7 @@ app.get('/repos/:id', function (req, res) {
 	    if(value == undefined){
 	      	// cache not found 
 	      	console.log("Cache not found, connecting to api.github.com");
-	      	//Retreivig the repos from github
+	      	//Retreivig the repo from github
 	         github.repos.getById({
 	         	id: req.params.id
 			}, function(err, msg) {
